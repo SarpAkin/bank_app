@@ -4,79 +4,64 @@ skinparam linetype ortho
 skinparam ranksep 40
 skinparam nodesep 40
 
-package "App" {
-  class BankApp {
-    -logger: Logger
-    +main(args: String[]): void
-  }
+class BankApp {
+  -logger: Logger
+  +main(args: String[]): void
 }
 
-package "Model" {
-  class User {
-    -name: String
-    -email: String
-    +User(name: String, email: String)
-    +getName(): String
-    +getEmail(): String
-  }
-
-  class Account {
-    -balance: double
-    -database: Database
-    -user: User
-    -logger: Logger
-    +Account(user: User, database: Database)
-    +saveTransaction(amount: double, type: String): void
-    +printStatement(): void
-    +getBalance(): double
-    +setBalance(balance: double): void
-    +getUser(): User
-  }
+class User {
+  -name: String
+  -email: String
+  +User(name: String, email: String)
+  +getName(): String
+  +getEmail(): String
 }
 
-package "Persistence" {
-  class Database {
-    -connection: Connection
-    -logger: Logger
-    +Database()
-    -createTransactionTable(): void
-    +getConnection(): Connection
-  }
+class Account {
+  -balance: double
+  -database: Database
+  -user: User
+  -logger: Logger
+  +Account(user: User, database: Database)
+  +saveTransaction(amount: double, type: String): void
+  +printStatement(): void
+  +getBalance(): double
+  +setBalance(balance: double): void
+  +getUser(): User
 }
 
-package "Operations" {
-  interface Operation {
-    +execute(amount: double): void
-  }
-
-  class Deposit {
-    -account: Account
-    -logger: Logger
-    +Deposit(account: Account)
-    +execute(amount: double): void
-  }
-
-  class Withdrawal {
-    -account: Account
-    -logger: Logger
-    +Withdrawal(account: Account)
-    +execute(amount: double): void
-  }
+class Database {
+  -connection: Connection
+  -logger: Logger
+  +Database()
+  -createTransactionTable(): void
+  +getConnection(): Connection
 }
 
-package "Exceptions" {
-  class InvalidAmountException
-  class InsufficientBalanceException
-
-  InvalidAmountException --|> Exception
-  InsufficientBalanceException --|> Exception
+interface Operation {
+  +execute(amount: double): void
 }
 
-package "Util" {
-  class DateUtils {
-    +YYYYMMDDHHMMSS_FORMATTER: DateTimeFormatter
-    +formatDate(date: Timestamp): String
-  }
+class Deposit {
+  -account: Account
+  -logger: Logger
+  +Deposit(account: Account)
+  +execute(amount: double): void
+}
+
+class Withdrawal {
+  -account: Account
+  -logger: Logger
+  +Withdrawal(account: Account)
+  +execute(amount: double): void
+}
+
+class InvalidAmountException
+class InsufficientBalanceException
+
+class DateUtils {
+  +YYYYMMDDHHMMSS_FORMATTER: DateTimeFormatter
+  +formatDate(date: Timestamp): String
 }
 
 BankApp ..> Database : uses
@@ -91,6 +76,9 @@ Withdrawal ..|> Operation
 
 Deposit *-- Account
 Withdrawal *-- Account
+
+InvalidAmountException --|> Exception
+InsufficientBalanceException --|> Exception
 
 Operation ..> InvalidAmountException : throws
 Operation ..> InsufficientBalanceException : throws
