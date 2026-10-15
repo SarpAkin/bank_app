@@ -4,13 +4,18 @@
 package com.bankapp.account;
 
 import com.bankapp.db.Database;
-
-import java.sql.*;
-import java.time.LocalDateTime;
-
 import com.bankapp.utils.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.PrintStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class Account {
     private double balance;
@@ -26,39 +31,52 @@ public class Account {
 
     /**
      * Saves the transaction in the database.
+     *
      * @param amount The amount of the transaction.
-     * @param type The type of the transaction (Deposit or Withdrawal).
+     * @param type   The type of the transaction (Deposit or Withdrawal).
+     * @return true if the transaction was saved successfully, false otherwise.
      */
-    public void saveTransaction(double amount, String type) {
+    public boolean saveTransaction(double amount, String type) {
         String insertSQL = "INSERT INTO TRANSACTION (date, amount, type) VALUES (?, ?, ?)";
         try (PreparedStatement pstmt = database.getConnection().prepareStatement(insertSQL)) {
             pstmt.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
             pstmt.setDouble(2, amount);
             pstmt.setString(3, type);
             pstmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             logger.error("Error saving transaction: " + e.getMessage());
+            return false;
         }
     }
 
 
     /**
-     * Prints the account statement.
+     * Prints the account statement to the standard output.
      */
     public void printStatement() {
+        printStatement(System.out);
+    }
+
+    /**
+     * Prints the account statement to the given output stream.
+     *
+     * @param out the output stream to print to
+     */
+    public void printStatement(PrintStream out) {
         String query = "SELECT * FROM TRANSACTION";
         double balance = 0.0;
         try (Connection conn = database.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
-            System.out.println("********** Date | Operation | Amount **********");
+            out.println("********** Date | Operation | Amount **********");
 
             while (rs.next()) {
                 Timestamp date = rs.getTimestamp("date");
                 String type = rs.getString("type");
                 double amount = rs.getDouble("amount");
-                System.out.println(DateUtils.formatDate(date) + " | " + type + " | " + amount);
+                out.println(DateUtils.formatDate(date) + " | " + type + " | " + amount);
 
                 if (type.equalsIgnoreCase("deposit")) {
                     balance += amount;
@@ -66,7 +84,7 @@ public class Account {
                     balance -= amount;
                 }
             }
-            System.out.println("********** Current Balance ********** : " + balance);
+            out.println("********** Current Balance ********** : " + balance);
 
         } catch (SQLException e) {
             logger.error("Error printing statement: " + e.getMessage());

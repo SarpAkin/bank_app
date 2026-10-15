@@ -1,0 +1,89 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class BankApp {
+  -logger: Logger
+  +main(args: String[]): void
+}
+
+class Account {
+  -balance: double
+  -database: Database
+  -user: User
+  -logger: Logger
+  +Account(user: User, database: Database)
+  +saveTransaction(amount: double, type: String): void
+  +printStatement(): void
+  +getBalance(): double
+  +setBalance(balance: double): void
+  +getUser(): User
+}
+
+class User {
+  -name: String
+  -email: String
+  +User(name: String, email: String)
+  +getName(): String
+  +getEmail(): String
+}
+
+class Database {
+  -connection: Connection
+  -logger: Logger
+  +Database()
+  -createTransactionTable(): void
+  +getConnection(): Connection
+}
+
+interface Operation {
+  +execute(amount: double): void
+}
+
+class Deposit {
+  -account: Account
+  -logger: Logger
+  +Deposit(account: Account)
+  +execute(amount: double): void
+}
+
+class Withdrawal {
+  -account: Account
+  -logger: Logger
+  +Withdrawal(account: Account)
+  +execute(amount: double): void
+}
+
+class DateUtils {
+  +YYYYMMDDHHMMSS_FORMATTER: DateTimeFormatter
+  +formatDate(date: Timestamp): String
+}
+
+class InvalidAmountException
+class InsufficientBalanceException
+
+BankApp ..> Database : uses
+BankApp ..> User : uses
+BankApp ..> Account : uses
+BankApp ..> Deposit : uses
+BankApp ..> Withdrawal : uses
+
+Account *-- User
+Account *-- Database
+Account ..> DateUtils : uses
+
+Deposit ..|> Operation
+Withdrawal ..|> Operation
+
+Deposit *-- Account
+Withdrawal *-- Account
+
+Operation ..> InvalidAmountException : throws
+Operation ..> InsufficientBalanceException : throws
+Deposit ..> InvalidAmountException : throws
+Withdrawal ..> InvalidAmountException : throws
+Withdrawal ..> InsufficientBalanceException : throws
+
+InvalidAmountException --|> Exception
+InsufficientBalanceException --|> Exception
+
+@enduml
