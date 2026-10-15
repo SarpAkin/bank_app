@@ -1,0 +1,30 @@
+target/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# NetBeans
+nbproject/
+
+# VS Code
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# Compiled class files
+*.class
+
+# OS files
+.DS_Store
+Thumbs.db
