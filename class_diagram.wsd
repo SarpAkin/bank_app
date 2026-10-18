@@ -7,6 +7,7 @@ skinparam nodesep 40
 class BankApp {
   -logger: Logger
   +main(args: String[]): void
+  +runMenu(scanner: Scanner, out: PrintStream, account: Account): void
 }
 
 class User {
@@ -14,7 +15,9 @@ class User {
   -email: String
   +User(name: String, email: String)
   +getName(): String
+  +setName(name: String): void
   +getEmail(): String
+  +setEmail(email: String): void
 }
 
 class Account {
@@ -23,8 +26,9 @@ class Account {
   -user: User
   -logger: Logger
   +Account(user: User, database: Database)
-  +saveTransaction(amount: double, type: String): void
+  +saveTransaction(amount: double, type: String): boolean
   +printStatement(): void
+  +printStatement(out: PrintStream): void
   +getBalance(): double
   +setBalance(balance: double): void
   +getUser(): User
@@ -34,8 +38,12 @@ class Database {
   -connection: Connection
   -logger: Logger
   +Database()
+  +Database(jdbcUrl: String)
   -createTransactionTable(): void
   +getConnection(): Connection
+  +isConnected(): boolean
+  +isTableCreated(tableName: String): boolean
+  +close(): void
 }
 
 interface Operation {
@@ -66,6 +74,9 @@ class DateUtils {
 
 BankApp ..> Database : uses
 BankApp ..> User : uses
+BankApp ..> Account : uses
+BankApp ..> Deposit : uses
+BankApp ..> Withdrawal : uses
 
 Account *-- User
 Account *-- Database
