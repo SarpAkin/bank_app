@@ -84,6 +84,16 @@ public class BankAppTest {
         assertEquals(60.0, account.getBalance(), DELTA);
         assertFalse(output.contains("Error:"));
     }
+
+    @Test
+    @DisplayName("option 1 invalid amount")
+    void option1InvalidAmount() {
+        String output = runAndJoin("1\n-100\n4");
+        assertEquals(0.0, account.getBalance(), DELTA);
+        assertTrue(output.contains("Error:"));
+    }
+
+
     @Test
     @DisplayName("insufficient balance is reported")
     void insufficientWithdrawalIsReported() {
