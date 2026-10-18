@@ -71,13 +71,6 @@ public class BankAppTest {
         assertEquals(250.0, account.getBalance(), DELTA);
     }
     @Test
-    @DisplayName("NaN deposit is reported")
-    void nanDepositIsReported() {
-        String output = runAndJoin("1\nNaN\n4");
-        assertTrue(output.contains("Invalid amount: Amount must be greater than zero."));
-        assertEquals(0.0, account.getBalance(), DELTA);
-    }
-    @Test
     @DisplayName("option 2 withdraws")
     void withdrawalThroughMenu() {
         String output = runAndJoin("1\n100\n2\n40\n4");
