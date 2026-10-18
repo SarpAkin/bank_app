@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("Deposit")
 public class DepositTest {
     private static final double DELTA = 1e-9;
 
@@ -42,7 +41,7 @@ public class DepositTest {
     }
 
     @Test
-    @DisplayName("a valid deposit increases the balance by the amount")
+    @DisplayName("increases balance")
     void depositIncreasesBalance() throws InvalidAmountException {
         deposit.execute(100);
 
@@ -59,7 +58,7 @@ public class DepositTest {
     }
 
     @Test
-    @DisplayName("the smallest positive amount (0.01) is accepted")
+    @DisplayName("accepts 0.01")
     void smallestPositiveAmountIsAccepted() {
         assertDoesNotThrow(() -> deposit.execute(0.01));
         assertEquals(0.01, account.getBalance(), DELTA);
@@ -67,7 +66,7 @@ public class DepositTest {
 
     @ParameterizedTest(name = "deposit({0}) is rejected")
     @ValueSource(doubles = {0.0, -0.01, -100.0, Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY})
-    @DisplayName("zero, negative and non-finite amounts are rejected without side effects")
+    @DisplayName("rejects zero, negative and non-finite")
     void invalidAmountIsRejected(double amount) throws SQLException {
         InvalidAmountException ex = assertThrows(InvalidAmountException.class, () -> deposit.execute(amount));
 
@@ -77,7 +76,7 @@ public class DepositTest {
     }
 
     @Test
-    @DisplayName("a deposit is stored in the database with type 'Deposit'")
+    @DisplayName("stored with type 'Deposit'")
     void depositIsRecordedInDatabase() throws Exception {
         deposit.execute(75);
 

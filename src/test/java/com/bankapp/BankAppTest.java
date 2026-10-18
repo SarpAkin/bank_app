@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("BankApp menu")
 public class BankAppTest {
     private static final double DELTA = 1e-9;
     private Database database;
@@ -51,7 +50,7 @@ public class BankAppTest {
         return String.join("\n", run(input));
     }
     @Test
-    @DisplayName("option 4 shows the menu with the user's name once and exits")
+    @DisplayName("option 4 shows menu and exits")
     void exitOptionShowsMenuAndExits() {
         assertLinesMatch(List.of(
                 "",
@@ -65,40 +64,40 @@ public class BankAppTest {
         ), run("4"));
     }
     @Test
-    @DisplayName("option 1 deposits the typed amount and confirms it")
+    @DisplayName("option 1 deposits")
     void depositThroughMenu() {
         String output = runAndJoin("1\n250\n4");
         assertTrue(output.contains("Enter the amount to deposit: Deposit of 250.0 successful."));
         assertEquals(250.0, account.getBalance(), DELTA);
     }
     @Test
-    @DisplayName("typing NaN at the deposit prompt is reported and leaves the balance intact")
+    @DisplayName("NaN deposit is reported")
     void nanDepositIsReported() {
         String output = runAndJoin("1\nNaN\n4");
         assertTrue(output.contains("Invalid amount: Amount must be greater than zero."));
         assertEquals(0.0, account.getBalance(), DELTA);
     }
     @Test
-    @DisplayName("option 2 withdraws silently when the balance is enough")
+    @DisplayName("option 2 withdraws")
     void withdrawalThroughMenu() {
         String output = runAndJoin("1\n100\n2\n40\n4");
         assertEquals(60.0, account.getBalance(), DELTA);
         assertFalse(output.contains("Error:"));
     }
     @Test
-    @DisplayName("option 2 reports an insufficient balance")
+    @DisplayName("insufficient balance is reported")
     void insufficientWithdrawalIsReported() {
         assertTrue(runAndJoin("2\n100\n4").contains("Error: Insufficient balance."));
     }
     @Test
-    @DisplayName("an unknown option shows a warning and the menu again")
+    @DisplayName("unknown option shows warning")
     void unknownOptionShowsWarning() {
         List<String> lines = run("9\n4");
         assertTrue(lines.contains("Invalid option, please try again."));
         assertEquals(2, Collections.frequency(lines, "Welcome, Test User!"));
     }
     @Test
-    @DisplayName("the statement is still correct when it is printed a second time")
+    @DisplayName("statement works after repeated use")
     void statementWorksAfterRepeatedUse() {
         List<String> footers = run("1\n100\n3\n1\n50\n3\n4").stream()
                 .filter(line -> line.contains("Current Balance"))
@@ -109,7 +108,7 @@ public class BankAppTest {
         ), footers);
     }
     @Test
-    @DisplayName("the menu does not handle non-numeric or missing input")
+    @DisplayName("bad input is not handled")
     void menuDoesNotHandleBadInput() {
         assertAll(
                 () -> assertThrows(InputMismatchException.class, () -> run("abc")),

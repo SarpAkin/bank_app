@@ -31,7 +31,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("Account")
 public class AccountTest {
     private static final double DELTA = 1e-9;
     private static final String HEADER = "********** Date | Operation | Amount **********";
@@ -66,7 +65,7 @@ public class AccountTest {
     }
 
     @Test
-    @DisplayName("a new account starts with balance 0 and keeps the same User object")
+    @DisplayName("new account starts at 0")
     void newAccountState() {
         assertAll(
                 () -> assertEquals(0.0, account.getBalance(), DELTA),
@@ -75,7 +74,7 @@ public class AccountTest {
     }
 
     @Test
-    @DisplayName("setBalance overwrites the previous balance")
+    @DisplayName("setBalance overwrites")
     void setBalanceOverwrites() {
         account.setBalance(100);
         account.setBalance(42.5);
@@ -84,14 +83,14 @@ public class AccountTest {
     }
 
     @Test
-    @DisplayName("saveTransaction stores the row and reports success")
+    @DisplayName("saveTransaction stores the row")
     void saveTransactionStoresRow() throws SQLException {
         assertTrue(account.saveTransaction(100, "Deposit"));
         assertIterableEquals(List.of("Deposit:100.0"), TransactionTable.entries(database));
     }
 
     @Test
-    @DisplayName("saveTransaction stamps the row with the current time")
+    @DisplayName("saveTransaction stamps current time")
     void saveTransactionStoresCurrentTime() throws SQLException {
         account.saveTransaction(100, "Deposit");
 
@@ -107,7 +106,7 @@ public class AccountTest {
     }
 
     @Test
-    @DisplayName("saveTransaction only records; it does not change the balance")
+    @DisplayName("saveTransaction leaves balance unchanged")
     void saveTransactionDoesNotChangeBalance() {
         account.saveTransaction(100, "Deposit");
 
@@ -115,7 +114,7 @@ public class AccountTest {
     }
 
     @Test
-    @DisplayName("saveTransaction returns false when the database is closed")
+    @DisplayName("saveTransaction fails when closed")
     void saveTransactionFailsOnClosedDatabase() {
         database.close();
 
@@ -123,13 +122,13 @@ public class AccountTest {
     }
 
     @Test
-    @DisplayName("an empty statement shows only the header and a zero balance")
+    @DisplayName("empty statement")
     void emptyStatement() {
         assertLinesMatch(List.of(HEADER, FOOTER + "0.0"), statementLines());
     }
 
     @Test
-    @DisplayName("the statement lists each transaction with its date and computes the balance")
+    @DisplayName("lists transactions and computes balance")
     void statementListsTransactions() {
         account.saveTransaction(100, "Deposit");
         account.saveTransaction(30, "Withdrawal");
@@ -148,7 +147,7 @@ public class AccountTest {
             "withdrawal, -50.0",
             "Transfer,   0.0"
     })
-    @DisplayName("the statement balance depends on the transaction type")
+    @DisplayName("balance depends on type")
     void statementBalanceDependsOnType(String type, String expectedBalance) {
         account.saveTransaction(50, type);
 
@@ -159,7 +158,7 @@ public class AccountTest {
     }
 
     @Test
-    @DisplayName("the statement balance comes from the history, not from setBalance")
+    @DisplayName("balance comes from history")
     void statementIgnoresBalanceField() {
         account.setBalance(999);
 
@@ -167,7 +166,7 @@ public class AccountTest {
     }
 
     @Test
-    @DisplayName("printing the statement keeps the database usable")
+    @DisplayName("printing keeps database usable")
     void printStatementKeepsConnectionOpen() {
         statementLines();
 
@@ -176,7 +175,7 @@ public class AccountTest {
     }
 
     @Test
-    @DisplayName("printStatement() without arguments writes to System.out")
+    @DisplayName("prints to System.out")
     void printStatementWritesToSystemOut() {
         PrintStream originalOut = System.out;
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();

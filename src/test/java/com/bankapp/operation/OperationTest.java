@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("Operation interface and custom exceptions")
 public class OperationTest {
     private static final double DELTA = 1e-9;
 
@@ -39,7 +38,7 @@ public class OperationTest {
     }
 
     @Test
-    @DisplayName("operations used through the Operation interface share one account")
+    @DisplayName("operations through the interface share one account")
     void operationsWorkThroughTheInterface() throws Exception {
         List<Operation> operations = List.of(new Deposit(account), new Withdrawal(account));
 
@@ -54,7 +53,7 @@ public class OperationTest {
     }
 
     @Test
-    @DisplayName("execute() declares exactly the exceptions shown in the UML diagram")
+    @DisplayName("execute declares the UML exceptions")
     void executeDeclaresUmlExceptions() throws NoSuchMethodException {
         assertArrayEquals(
                 new Class<?>[]{InvalidAmountException.class, InsufficientBalanceException.class},
@@ -68,7 +67,7 @@ public class OperationTest {
     }
 
     @Test
-    @DisplayName("custom exceptions are checked exceptions, so callers must handle them")
+    @DisplayName("custom exceptions are checked")
     void customExceptionsAreChecked() {
         assertAll(
                 () -> assertTrue(Exception.class.isAssignableFrom(InvalidAmountException.class)),

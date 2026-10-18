@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("Withdrawal")
 public class WithdrawalTest {
     private static final double DELTA = 1e-9;
 
@@ -49,7 +48,7 @@ public class WithdrawalTest {
             "100.0, 100.0, 0.0",
             "100.0, 0.01,  99.99"
     })
-    @DisplayName("a valid withdrawal reduces the balance")
+    @DisplayName("reduces balance")
     void validWithdrawalReducesBalance(double initial, double amount, double expected) {
         account.setBalance(initial);
 
@@ -63,7 +62,7 @@ public class WithdrawalTest {
             "50.0,  50.01",
             "100.0, 1000.0"
     })
-    @DisplayName("withdrawing more than the balance is rejected without side effects")
+    @DisplayName("rejects more than balance")
     void withdrawalAboveBalanceIsRejected(double initial, double amount) throws SQLException {
         account.setBalance(initial);
 
@@ -77,7 +76,7 @@ public class WithdrawalTest {
 
     @ParameterizedTest(name = "withdraw({0}) is an invalid amount")
     @ValueSource(doubles = {0.0, -50.0, Double.NaN, Double.POSITIVE_INFINITY})
-    @DisplayName("zero, negative and non-finite amounts are rejected as invalid")
+    @DisplayName("rejects zero, negative and non-finite")
     void invalidAmountIsRejected(double amount) {
         account.setBalance(100);
 
@@ -86,7 +85,7 @@ public class WithdrawalTest {
     }
 
     @Test
-    @DisplayName("the balance check uses the balance left by earlier withdrawals")
+    @DisplayName("uses balance left by earlier withdrawals")
     void balanceCheckUsesUpdatedBalance() throws Exception {
         account.setBalance(100);
         withdrawal.execute(60);
@@ -96,7 +95,7 @@ public class WithdrawalTest {
     }
 
     @Test
-    @DisplayName("a withdrawal is stored in the database with type 'Withdrawal'")
+    @DisplayName("stored with type 'Withdrawal'")
     void withdrawalIsRecordedInDatabase() throws Exception {
         account.setBalance(100);
         withdrawal.execute(40);

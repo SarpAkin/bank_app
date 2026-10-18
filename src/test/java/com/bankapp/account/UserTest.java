@@ -8,11 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-@DisplayName("User")
 public class UserTest {
 
     @Test
-    @DisplayName("the constructor stores name and email")
+    @DisplayName("stores name and email")
     void constructorStoresFields() {
         User user = new User("Ayse Yilmaz", "ayse@example.com");
 
@@ -23,7 +22,7 @@ public class UserTest {
     }
 
     @Test
-    @DisplayName("setters replace name and email")
+    @DisplayName("replaces name and email")
     void settersReplaceFields() {
         User user = new User("Old Name", "old@example.com");
 
@@ -37,7 +36,7 @@ public class UserTest {
     }
 
     @Test
-    @DisplayName("null values are accepted, because User does no validation")
+    @DisplayName("accepts null values")
     void nullValuesAreAccepted() {
         User user = new User(null, null);
 
@@ -46,7 +45,7 @@ public class UserTest {
     }
 
     @Test
-    @DisplayName("two users with the same data are different objects (equals is not overridden)")
+    @DisplayName("equals is not overridden")
     void equalityIsIdentityBased() {
         assertNotEquals(new User("Ali", "ali@example.com"), new User("Ali", "ali@example.com"));
     }

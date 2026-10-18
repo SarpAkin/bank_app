@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@DisplayName("DateUtils")
 public class DateUtilsTest {
 
     @ParameterizedTest(name = "{0} -> \"{1}\"")
@@ -21,7 +20,7 @@ public class DateUtilsTest {
             "2024-02-29T12:05:09, 2024-02-29 12:05:09",
             "2026-10-16T15:30:45, 2026-10-16 15:30:45"
     })
-    @DisplayName("formatDate uses the yyyy-MM-dd HH:mm:ss format")
+    @DisplayName("uses yyyy-MM-dd HH:mm:ss")
     void formatDateUsesStatementFormat(String input, String expected) {
         Timestamp timestamp = Timestamp.valueOf(LocalDateTime.parse(input));
 
@@ -29,7 +28,7 @@ public class DateUtilsTest {
     }
 
     @Test
-    @DisplayName("fractions of a second are dropped, not rounded")
+    @DisplayName("drops fractional seconds")
     void fractionsOfSecondAreDropped() {
         Timestamp timestamp = Timestamp.valueOf("2026-10-16 10:01:02.987");
 
@@ -37,7 +36,7 @@ public class DateUtilsTest {
     }
 
     @Test
-    @DisplayName("the formatter can parse its own output back to the same date-time")
+    @DisplayName("round-trips its own output")
     void formatterRoundTrips() {
         LocalDateTime original = LocalDateTime.of(2026, 3, 8, 9, 15, 0);
 
@@ -47,7 +46,7 @@ public class DateUtilsTest {
     }
 
     @Test
-    @DisplayName("a null timestamp throws NullPointerException")
+    @DisplayName("null timestamp throws")
     void nullTimestampThrows() {
         assertThrows(NullPointerException.class, () -> DateUtils.formatDate(null));
     }

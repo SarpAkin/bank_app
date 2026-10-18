@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("Database")
 public class DatabaseTest {
 
     private Database database;
@@ -41,20 +40,20 @@ public class DatabaseTest {
     }
 
     @Test
-    @DisplayName("a new database is connected")
+    @DisplayName("new database is connected")
     void newDatabaseIsConnected() {
         assertNotNull(database.getConnection());
         assertTrue(database.isConnected());
     }
 
     @Test
-    @DisplayName("the TRANSACTION table is created by the constructor")
+    @DisplayName("creates TRANSACTION table")
     void transactionTableIsCreated() {
         assertTrue(database.isTableCreated("TRANSACTION"));
     }
 
     @Test
-    @DisplayName("table lookup is case-insensitive, even with a Turkish default locale")
+    @DisplayName("case-insensitive lookup (Turkish locale)")
     void tableLookupWorksInTurkishLocale() {
         Locale original = Locale.getDefault();
         try {
@@ -67,13 +66,13 @@ public class DatabaseTest {
     }
 
     @Test
-    @DisplayName("a table that was never created is not found")
+    @DisplayName("unknown table is not found")
     void unknownTableIsNotFound() {
         assertFalse(database.isTableCreated("ACCOUNTS"));
     }
 
     @Test
-    @DisplayName("the TRANSACTION table has the expected columns in order")
+    @DisplayName("expected columns in order")
     void transactionTableHasExpectedColumns() throws SQLException {
         List<String> columns = new ArrayList<>();
         try (ResultSet rs = database.getConnection().getMetaData()
@@ -87,7 +86,7 @@ public class DatabaseTest {
     }
 
     @Test
-    @DisplayName("two default databases do not share data")
+    @DisplayName("default databases are isolated")
     void defaultDatabasesAreIsolated() throws SQLException {
         Database other = new Database();
         try {
@@ -101,7 +100,7 @@ public class DatabaseTest {
     }
 
     @Test
-    @DisplayName("a second database on the same URL sees existing data (table is not recreated)")
+    @DisplayName("same URL shares data")
     void sameUrlSharesData() throws SQLException {
         String url = uniqueSharedUrl();
         Database first = new Database(url);
@@ -120,7 +119,7 @@ public class DatabaseTest {
     }
 
     @Test
-    @DisplayName("close() disconnects the database")
+    @DisplayName("close disconnects")
     void closeDisconnects() {
         database.close();
 
@@ -128,7 +127,7 @@ public class DatabaseTest {
     }
 
     @Test
-    @DisplayName("an invalid JDBC URL leaves the database disconnected instead of crashing")
+    @DisplayName("invalid URL leaves disconnected")
     void invalidUrlLeavesDatabaseDisconnected() {
         Database broken = new Database("jdbc:invalid:url");
 
