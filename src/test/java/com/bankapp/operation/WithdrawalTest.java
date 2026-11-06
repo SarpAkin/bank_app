@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@DisplayName("Withdrawal")
 public class WithdrawalTest {
     private static final double DELTA = 1e-9;
 
@@ -48,7 +49,7 @@ public class WithdrawalTest {
             "100.0, 100.0, 0.0",
             "100.0, 0.01,  99.99"
     })
-    @DisplayName("reduces balance")
+    @DisplayName("a valid withdrawal reduces the balance")
     void validWithdrawalReducesBalance(double initial, double amount, double expected) {
         account.setBalance(initial);
 
@@ -62,7 +63,7 @@ public class WithdrawalTest {
             "50.0,  50.01",
             "100.0, 1000.0"
     })
-    @DisplayName("rejects more than balance")
+    @DisplayName("withdrawing more than the balance is rejected without side effects")
     void withdrawalAboveBalanceIsRejected(double initial, double amount) throws SQLException {
         account.setBalance(initial);
 
@@ -76,16 +77,19 @@ public class WithdrawalTest {
 
     @ParameterizedTest(name = "withdraw({0}) is an invalid amount")
     @ValueSource(doubles = {0.0, -50.0, Double.NaN, Double.POSITIVE_INFINITY})
-    @DisplayName("rejects zero, negative and non-finite")
+    @DisplayName("zero, negative and non-finite amounts are rejected as invalid")
     void invalidAmountIsRejected(double amount) {
         account.setBalance(100);
 
-        assertThrows(InvalidAmountException.class, () -> withdrawal.execute(amount));
+        InvalidAmountException ex =
+                assertThrows(InvalidAmountException.class, () -> withdrawal.execute(amount));
+
+        assertEquals("Amount must be greater than zero.", ex.getMessage());
         assertEquals(100.0, account.getBalance(), DELTA);
     }
 
     @Test
-    @DisplayName("uses balance left by earlier withdrawals")
+    @DisplayName("the balance check uses the balance left by earlier withdrawals")
     void balanceCheckUsesUpdatedBalance() throws Exception {
         account.setBalance(100);
         withdrawal.execute(60);
@@ -95,7 +99,7 @@ public class WithdrawalTest {
     }
 
     @Test
-    @DisplayName("stored with type 'Withdrawal'")
+    @DisplayName("a withdrawal is stored in the database with type 'Withdrawal'")
     void withdrawalIsRecordedInDatabase() throws Exception {
         account.setBalance(100);
         withdrawal.execute(40);

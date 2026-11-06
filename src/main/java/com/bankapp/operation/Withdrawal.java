@@ -20,12 +20,13 @@ public class Withdrawal implements Operation {
     /**
      * Executes the withdrawal operation.
      * @param amount The amount to withdraw.
-     * @throws InvalidAmountException if the amount is less than or equal to zero.
+     * @throws InvalidAmountException if the amount is less than or equal to zero, or is NaN/Infinity.
      * @throws InsufficientBalanceException if the balance is insufficient.
      */
     @Override
     public void execute(double amount) throws InvalidAmountException, InsufficientBalanceException {
-        if (amount <= 0) {
+        // NaN passes "amount <= 0" (every comparison with NaN is false), so it is checked explicitly
+        if (!Double.isFinite(amount) || amount <= 0) {
             throw new InvalidAmountException("Amount must be greater than zero.");
         }
         if (amount > account.getBalance()) {

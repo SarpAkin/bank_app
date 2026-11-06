@@ -1,0 +1,50 @@
+=== ORIGINAL: BASELINE (0 of 12 WithdrawalTest runs failed)
+=== M01: KILLED (10 of 12 WithdrawalTest runs failed)
+    failed: a withdrawal is stored in the database with type 'Withdrawal' [X] Amount must be greater than zero.
+    failed: the balance check uses the balance left by earlier withdrawals [X] Amount must be greater than zero.
+    failed: balance 100.0 - withdraw 30.0 = 70.0 [X] Unexpected exception thrown: com.bankapp.exceptions.InvalidAmountException: Amount must be greater than zero.
+    failed: balance 100.0 - withdraw 100.0 = 0.0 [X] Unexpected exception thrown: com.bankapp.exceptions.InvalidAmountException: Amount must be greater than zero.
+    failed: balance 100.0 - withdraw 0.01 = 99.99 [X] Unexpected exception thrown: com.bankapp.exceptions.InvalidAmountException: Amount must be greater than zero.
+    failed: withdraw(NaN) is an invalid amount [X] Expected com.bankapp.exceptions.InvalidAmountException to be thrown, but nothing was thrown.
+    failed: withdraw(Infinity) is an invalid amount [X] Unexpected exception type thrown, expected: <com.bankapp.exceptions.InvalidAmountException> but was: <com.bankapp.exceptions.InsufficientBalanceException>
+    failed: balance 0.0 - withdraw 1.0 is rejected [X] Unexpected exception type thrown, expected: <com.bankapp.exceptions.InsufficientBalanceException> but was: <com.bankapp.exceptions.InvalidAmountException>
+    failed: balance 50.0 - withdraw 50.01 is rejected [X] Unexpected exception type thrown, expected: <com.bankapp.exceptions.InsufficientBalanceException> but was: <com.bankapp.exceptions.InvalidAmountException>
+    failed: balance 100.0 - withdraw 1000.0 is rejected [X] Unexpected exception type thrown, expected: <com.bankapp.exceptions.InsufficientBalanceException> but was: <com.bankapp.exceptions.InvalidAmountException>
+=== M02: KILLED (4 of 12 WithdrawalTest runs failed)
+    failed: withdraw(0.0) is an invalid amount [X] Expected com.bankapp.exceptions.InvalidAmountException to be thrown, but nothing was thrown.
+    failed: withdraw(-50.0) is an invalid amount [X] Expected com.bankapp.exceptions.InvalidAmountException to be thrown, but nothing was thrown.
+    failed: withdraw(NaN) is an invalid amount [X] Expected com.bankapp.exceptions.InvalidAmountException to be thrown, but nothing was thrown.
+    failed: withdraw(Infinity) is an invalid amount [X] Unexpected exception type thrown, expected: <com.bankapp.exceptions.InvalidAmountException> but was: <com.bankapp.exceptions.InsufficientBalanceException>
+=== M03: KILLED (1 of 12 WithdrawalTest runs failed)
+    failed: withdraw(0.0) is an invalid amount [X] Expected com.bankapp.exceptions.InvalidAmountException to be thrown, but nothing was thrown.
+=== M04: KILLED (2 of 12 WithdrawalTest runs failed)
+    failed: balance 100.0 - withdraw 0.01 = 99.99 [X] Unexpected exception thrown: com.bankapp.exceptions.InvalidAmountException: Amount must be greater than zero.
+    failed: balance 0.0 - withdraw 1.0 is rejected [X] Unexpected exception type thrown, expected: <com.bankapp.exceptions.InsufficientBalanceException> but was: <com.bankapp.exceptions.InvalidAmountException>
+=== M05: KILLED (1 of 12 WithdrawalTest runs failed)
+    failed: balance 100.0 - withdraw 100.0 = 0.0 [X] Unexpected exception thrown: com.bankapp.exceptions.InsufficientBalanceException: Insufficient balance.
+=== M06: KILLED (8 of 12 WithdrawalTest runs failed)
+    failed: a withdrawal is stored in the database with type 'Withdrawal' [X] Insufficient balance.
+    failed: the balance check uses the balance left by earlier withdrawals [X] Insufficient balance.
+    failed: balance 100.0 - withdraw 30.0 = 70.0 [X] Unexpected exception thrown: com.bankapp.exceptions.InsufficientBalanceException: Insufficient balance.
+    failed: balance 100.0 - withdraw 100.0 = 0.0 [X] Unexpected exception thrown: com.bankapp.exceptions.InsufficientBalanceException: Insufficient balance.
+    failed: balance 100.0 - withdraw 0.01 = 99.99 [X] Unexpected exception thrown: com.bankapp.exceptions.InsufficientBalanceException: Insufficient balance.
+    failed: balance 0.0 - withdraw 1.0 is rejected [X] Expected com.bankapp.exceptions.InsufficientBalanceException to be thrown, but nothing was thrown.
+    failed: balance 50.0 - withdraw 50.01 is rejected [X] Expected com.bankapp.exceptions.InsufficientBalanceException to be thrown, but nothing was thrown.
+    failed: balance 100.0 - withdraw 1000.0 is rejected [X] Expected com.bankapp.exceptions.InsufficientBalanceException to be thrown, but nothing was thrown.
+=== M07: KILLED (4 of 12 WithdrawalTest runs failed)
+    failed: the balance check uses the balance left by earlier withdrawals [X] Expected com.bankapp.exceptions.InsufficientBalanceException to be thrown, but nothing was thrown.
+    failed: balance 100.0 - withdraw 30.0 = 70.0 [X] expected: <70.0> but was: <130.0>
+    failed: balance 100.0 - withdraw 100.0 = 0.0 [X] expected: <0.0> but was: <200.0>
+    failed: balance 100.0 - withdraw 0.01 = 99.99 [X] expected: <99.99> but was: <100.01>
+=== M08: KILLED (4 of 12 WithdrawalTest runs failed)
+    failed: the balance check uses the balance left by earlier withdrawals [X] Expected com.bankapp.exceptions.InsufficientBalanceException to be thrown, but nothing was thrown.
+    failed: balance 100.0 - withdraw 30.0 = 70.0 [X] expected: <70.0> but was: <100.0>
+    failed: balance 100.0 - withdraw 100.0 = 0.0 [X] expected: <0.0> but was: <100.0>
+    failed: balance 100.0 - withdraw 0.01 = 99.99 [X] expected: <99.99> but was: <100.0>
+=== M09: KILLED (1 of 12 WithdrawalTest runs failed)
+    failed: a withdrawal is stored in the database with type 'Withdrawal' [X] iterable lengths differ, expected: <1> but was: <0>
+=== M10: KILLED (4 of 12 WithdrawalTest runs failed)
+    failed: withdraw(0.0) is an invalid amount [X] expected: <Amount must be greater than zero.> but was: <>
+    failed: withdraw(-50.0) is an invalid amount [X] expected: <Amount must be greater than zero.> but was: <>
+    failed: withdraw(NaN) is an invalid amount [X] expected: <Amount must be greater than zero.> but was: <>
+    failed: withdraw(Infinity) is an invalid amount [X] expected: <Amount must be greater than zero.> but was: <>

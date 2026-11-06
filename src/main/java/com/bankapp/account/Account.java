@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.PrintStream;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -66,8 +65,9 @@ public class Account {
     public void printStatement(PrintStream out) {
         String query = "SELECT * FROM TRANSACTION";
         double balance = 0.0;
-        try (Connection conn = database.getConnection();
-             Statement stmt = conn.createStatement();
+        // The connection is shared with the Database object, so only the statement and
+        // result set are closed here. Closing the connection broke every later transaction.
+        try (Statement stmt = database.getConnection().createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
             out.println("********** Date | Operation | Amount **********");

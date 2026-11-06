@@ -1,0 +1,43 @@
+Mutants of src/main/java/com/bankapp/operation/Withdrawal.java
+Each folder holds the whole file with exactly one change, marked with // MUTANT.
+
+M01  line 29  Negate conditional
+      original: if (!Double.isFinite(amount) || amount <= 0) {
+      mutant:   if (Double.isFinite(amount) || amount <= 0) {
+
+M02  line 29  Conditional operator || to &&
+      original: if (!Double.isFinite(amount) || amount <= 0) {
+      mutant:   if (!Double.isFinite(amount) && amount <= 0) {
+
+M03  line 29  Conditional boundary <= to <
+      original: if (!Double.isFinite(amount) || amount <= 0) {
+      mutant:   if (!Double.isFinite(amount) || amount < 0) {
+
+M04  line 29  Inline constant 0 to 1
+      original: if (!Double.isFinite(amount) || amount <= 0) {
+      mutant:   if (!Double.isFinite(amount) || amount <= 1) {
+
+M05  line 32  Conditional boundary > to >=
+      original: if (amount > account.getBalance()) {
+      mutant:   if (amount >= account.getBalance()) {
+
+M06  line 32  Negate conditional > to <=
+      original: if (amount > account.getBalance()) {
+      mutant:   if (amount <= account.getBalance()) {
+
+M07  line 35  Math operator - to +
+      original: account.setBalance(account.getBalance() - amount);
+      mutant:   account.setBalance(account.getBalance() + amount);
+
+M08  line 35  Void method call removed (setBalance)
+      original: account.setBalance(account.getBalance() - amount);
+      mutant:   (line removed)
+
+M09  line 36  Method call removed (saveTransaction)
+      original: account.saveTransaction(amount, "Withdrawal");
+      mutant:   (line removed)
+
+M10  line 30  String constant replaced (exception message)
+      original: throw new InvalidAmountException("Amount must be greater than zero.");
+      mutant:   throw new InvalidAmountException("");
+

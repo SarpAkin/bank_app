@@ -83,7 +83,7 @@ public class BankAppTest {
     void option1InvalidAmount() {
         String output = runAndJoin("1\n-100\n4");
         assertEquals(0.0, account.getBalance(), DELTA);
-        assertTrue(output.contains("Error:"));
+        assertTrue(output.contains("Invalid amount: Amount must be greater than zero."));
     }
 
 

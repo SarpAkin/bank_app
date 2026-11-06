@@ -19,11 +19,12 @@ public class Deposit implements Operation {
     /**
      * Executes the deposit operation.
      * @param amount The amount to deposit.
-     * @throws InvalidAmountException if the amount is less than or equal to zero.
+     * @throws InvalidAmountException if the amount is less than or equal to zero, or is NaN/Infinity.
      */
     @Override
     public void execute(double amount) throws InvalidAmountException {
-        if (amount <= 0) {
+        // NaN passes "amount <= 0" (every comparison with NaN is false), so it is checked explicitly
+        if (!Double.isFinite(amount) || amount <= 0) {
             throw new InvalidAmountException("Amount must be greater than zero.");
         }
         account.setBalance(account.getBalance() + amount);

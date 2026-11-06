@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -96,7 +97,9 @@ public class Database {
         }
         try {
             DatabaseMetaData meta = connection.getMetaData();
-            try (ResultSet rs = meta.getTables(null, null, tableName.toUpperCase(), new String[]{"TABLE"})) {
+            // Locale.ROOT: with a Turkish default locale, "transaction".toUpperCase() turns the
+            // letter i into a dotted capital I (U+0130), so the table would never be found
+            try (ResultSet rs = meta.getTables(null, null, tableName.toUpperCase(Locale.ROOT), new String[]{"TABLE"})) {
                 return rs.next();
             }
         } catch (SQLException e) {

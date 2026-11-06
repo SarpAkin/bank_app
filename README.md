@@ -56,6 +56,28 @@ mvn exec:java -Dexec.mainClass="com.bankapp.BankApp"
 3. To run the tests:
 mvn test
 
+## Tests (JUnit 5)
+
+`mvn test` runs the three JUnit 5 test suites (84 tests in total):
+
+| Suite | Test classes | Covers |
+|---|---|---|
+| `OperationsTestSuite` | `DepositTest`, `WithdrawalTest`, `OperationTest`, `BankAppTest` | Deposit/withdrawal rules, the Operation contract, the interactive menu |
+| `CoreTestSuite` | `AccountTest`, `UserTest`, `DatabaseTest`, `DateUtilsTest` | Account and statement, User, the H2 database wrapper, date formatting |
+| `Hw2TestSuite` | `WithdrawalBasisPathTest`, `AccountStatementBasisPathTest`, `BankAppDecisionTableTest` | Basis path (white-box) tests and the decision table of the menu |
+
+Mutation testing (HW2): `mutation/mutants/M01..M10` hold ten mutants of `Withdrawal.java`.
+`bash mutation/run-mutants.sh` (or `mutation\run-mutants.ps1` on Windows) runs `WithdrawalTest`
+against each mutant and reports which ones are killed. Flowcharts are in `docs/hw2/flowcharts`.
+
+Run a single suite or class:
+
+    mvn test -Dtest=OperationsTestSuite
+    mvn test -Dtest=DepositTest
+
+Parameterized tests are in `DepositTest`, `WithdrawalTest`, `AccountTest` and `DateUtilsTest`.
+`class_diagram.wsd` (rendered as `class_diagram.png`) is the UML class diagram of the application.
+
 ## Technologies Used
 Java 11: Main programming language
 JUnit 5: For unit testing
